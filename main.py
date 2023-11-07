@@ -17,19 +17,21 @@ def validate_vnet_id(vnet_id):
         raise ValueError("Invalid VNet resource ID.")
     
 def get_resource_group_name(vnet_id):
-    match = re.search(r"/resourceGroups/(.*?)/", vnet_id)
+    vnet_id = vnet_id.lower()
+    match = re.search(r"/resourcegroups/(.*?)/", vnet_id)
     if match:
         return match.group(1)
     else:
         raise ValueError("Invalid VNet resource ID.")
 
 def get_vnet_name(vnet_id):
-    match = re.search(r"/virtualNetworks/(.*)", vnet_id)
+    vnet_id = vnet_id.lower()
+    match = re.search(r"/virtualnetworks/(.*)", vnet_id)
     if match:
         return match.group(1)
     else:
         raise ValueError("Invalid VNet resource ID.")
-
+    
 def split_vnet(vnet_id, new_prefix):
     # Validate the VNet resource ID
     validate_vnet_id(vnet_id)
