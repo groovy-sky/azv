@@ -18,7 +18,7 @@ The VirtualNetworkTweak (VNT) is a command-line tool designed to manage and modi
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/vnt.git
+git clone https://github.com/groovy-sky/vnt.git
 ```
 
 2. Change into the `vnt` directory:
@@ -38,7 +38,7 @@ pip install -r requirements.txt
 To split the address space of a VNet, use the `split` command. Provide the resource ID of the VNet and the new prefix length as arguments:
 
 ```bash
-python main.py split /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName} {newPrefix}
+python vnt/azure.py split /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName} {newPrefix}
 ```
 
 Replace `{subscriptionId}`, `{resourceGroupName}`, `{vnetName}`, and `{newPrefix}` with your actual values.
