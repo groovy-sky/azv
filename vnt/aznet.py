@@ -1,5 +1,6 @@
 import argparse
 import re
+import hashlib
 from azure.identity import DefaultAzureCredential
 from azure.mgmt.network import NetworkManagementClient
 from split import split_cidr
@@ -60,9 +61,23 @@ def split_vnet(vnet_id, new_prefix):
         if subnet_result is not None:
             result.extend(subnet_result)
 
+    # Create new subnets
+    for subnet in result:
+        print("Creating subnet: {}".format(subnet))
+        subnet_name = "unused-" + hashlib.md5(subnet.encode("utf-8")).hexdigest()
+        network_client.subnets.begin_create_or_update(
+            resource_group_name,
+            vnet_name,
+            subnet_name,
+            {
+                "address_prefix": subnet
+            }
+        ).wait()
+
     return result
 
 def main():
+
     parser = argparse.ArgumentParser(description='A CLI for managing VNets.')
     subparsers = parser.add_subparsers(dest='command', help='The command to execute.')
 
