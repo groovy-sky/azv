@@ -70,19 +70,23 @@ def split_vnet(vnet_id, new_prefix):
             print("Already existing subnet: {}".format(subnet.address_prefix))
             result.remove(subnet.address_prefix)
 
-    # Create new subnets
+    # Try to create a new subnet for each result, ignoring existing subnets and failures
     for subnet in result:
-        print("Creating subnet: {}".format(subnet))
+        print("[INF] Trying to create subnet: {}".format(subnet))
         subnet_mask = subnet.split("/")[1]
         subnet_name = "unused-" + subnet_mask + "-" + hashlib.md5(subnet.encode("utf-8")).hexdigest()
-        network_client.subnets.begin_create_or_update(
-            resource_group_name,
-            vnet_name,
-            subnet_name,
-            {
-                "address_prefix": subnet
-            }
-        ).wait()
+        try:
+            network_client.subnets.begin_create_or_update(
+                resource_group_name,
+                vnet_name,
+                subnet_name,
+                {
+                    "address_prefix": subnet
+                }
+            ).wait()
+        except:
+            print("[ERR] Failed to create subnet: {}".format(subnet))
+            pass
 
     return result
 

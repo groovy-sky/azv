@@ -41,7 +41,17 @@ To split the address space of a VNet, use the `split` command. Provide the resou
 python vnt/azure.py split /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName} {newPrefix}
 ```
 
-Replace `{subscriptionId}`, `{resourceGroupName}`, `{vnetName}`, and `{newPrefix}` with your actual values.
+To see existing subnets of a VNet, use the `print` command. Provide the resource ID of the VNet as an argument:
+
+```bash
+python vnt/azure.py print /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}
+```
+
+To store results in a file, use the `--output` option:
+
+```bash
+python vnt/azure.py print /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName} --output {outputFile}
+```
 
 ## Contributing
 
